@@ -1,9 +1,9 @@
 import { User } from "../models";
 import { IUser } from "../models/user.model";
 
-const getByEmail = async (email: string) => {
+const getWithPassword = async (email: string) => {
   try {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).select("+password");
     return user;
   } catch (error) {
     throw error;
@@ -19,9 +19,9 @@ const findMany = async (query: any) => {
   }
 };
 
-const findOne = async (_id: string) => {
+const findByEmail = async (email: string) => {
   try {
-    const user = User.findById(_id);
+    const user = User.findOne( {email} );
     return user;
   } catch (error) {
     throw error;
@@ -88,10 +88,10 @@ export {
   findMany,
   createMany,
   create,
-  findOne,
+  findByEmail,
   updateOne,
   updateMany,
   deleteOne,
   deleteMany,
-  getByEmail
+  getWithPassword
 };

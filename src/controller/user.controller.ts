@@ -1,10 +1,11 @@
 import { Request, Response } from "express";
 import { response } from "../types/response-body.type";
+import { User } from '../models/user.model'
 import {
   findMany,
   createMany,
   create,
-  findOne,
+  getWithPassword,
   updateOne,
   updateMany,
   deleteOne,
@@ -14,8 +15,14 @@ import {
 const  signIn = async ( req: Request, res: Response) => {
   const { email, password } = req.body;
    try {
-      const data = await findOne(email);
+      const data = await getWithPassword(email);
       if(!data) return response(res, 201, { message: "User not found", data: data });
+
+      const validPassword = await User.schema.methods.comparePassword(password, data.password);
+
+      if(!validPassword) return response(res, 201, { message: "Invalid password", data: data });
+
+      data.password = "";
 
       return response(res, 200, { message: "User found", data: data });
    } catch (error) {
@@ -32,19 +39,6 @@ const getUsers = async (req: Request, res: Response) => {
     if (!data) return response(res, 404, { message: "Users not found", data });
 
     return response(res, 200, { message: "All Users", data });
-  } catch (error) {
-    console.log(error);
-    return response(res, 500, { message: "Error", data: error });
-  }
-};
-
-const getUser = async (req: Request, res: Response) => {
-  try {
-    const data = await findOne(req.params.id);
-
-    if (!data) return response(res, 404, { message: "User not found", data });
-
-    return response(res, 200, { message: "User found", data });
   } catch (error) {
     console.log(error);
     return response(res, 500, { message: "Error", data: error });
@@ -141,7 +135,6 @@ export {
   getUsers,
   createUsers,
   signUp,
-  getUser,
   updateUser,
   updateUsers,
   deleteUser,

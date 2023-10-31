@@ -10,7 +10,7 @@ type Config = {
 const config = {
   development: {
     db_uri:
-      "mongodb://127.0.0.1:27017/local",
+      "mongodb://127.0.0.1:27017/drawmoretags",
   },
   production: {
     db_uri: process.env.DB_URI as string,
