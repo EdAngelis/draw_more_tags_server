@@ -1,6 +1,7 @@
 {
   "name": "draw_more_tags_server",
   "version": "1.0.0",
+  "module": "commonjs",
   "description": "",
   "main": "server.js",
   "scripts": {
