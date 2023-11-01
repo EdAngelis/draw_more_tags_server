@@ -20,7 +20,7 @@ const  signIn = async ( req: Request, res: Response) => {
 
       const validPassword = await User.schema.methods.comparePassword(password, data.password);
 
-      if(!validPassword) return response(res, 201, { message: "Invalid password", data: data });
+      if(!validPassword) return response(res, 201, { message: "Invalid password", data: null });
 
       data.password = "";
 
