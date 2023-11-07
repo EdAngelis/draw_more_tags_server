@@ -12,6 +12,7 @@ import {
 
 const router = Router();
 
+router.get("/", getUsers);
 router.post("/signIn", signIn)
 router.get("/create-many", createUsers);
 router.post("/", signUp);
