@@ -1,7 +1,16 @@
 import { User } from "../models";
 import { IUser } from "../models/user.model";
 
-const getWithPassword = async (email: string) => {
+export const getUserById = async (_id: string) => {
+  try {
+    const user = await User.findById(_id);
+    return user;
+  } catch (error) {
+    
+  }
+};
+
+export const getWithPassword = async (email: string) => {
   try {
     const user = await User.findOne({ email }).select("+password");
     return user;
@@ -10,7 +19,7 @@ const getWithPassword = async (email: string) => {
   }
 }
 
-const findMany = async (query: any) => {
+export const findMany = async (query: any) => {
   try {
     const users = await User.find(query);
     return users;
@@ -19,7 +28,7 @@ const findMany = async (query: any) => {
   }
 };
 
-const findByEmail = async (email: string) => {
+export const findByEmail = async (email: string) => {
   try {
     const user = User.findOne( {email} );
     return user;
@@ -28,7 +37,7 @@ const findByEmail = async (email: string) => {
   }
 };
 
-const create = async (user: IUser) => {
+export const create = async (user: IUser) => {
   try {
     const newUser = await User.create(user);
     return newUser;
@@ -37,7 +46,7 @@ const create = async (user: IUser) => {
   }
 };
 
-const createMany = async (Users: IUser[]) => {
+export const createMany = async (Users: IUser[]) => {
   try {
     const newUsers = await User.insertMany(Users);
     return newUsers;
@@ -46,7 +55,7 @@ const createMany = async (Users: IUser[]) => {
   }
 };
 
-const updateOne = async (_id: string, user: IUser) => {
+export const updateOne = async (_id: string, user: IUser) => {
   try {
     const newUser = User.findByIdAndUpdate(_id, user, {
       new: true,
@@ -57,7 +66,7 @@ const updateOne = async (_id: string, user: IUser) => {
   }
 };
 
-const updateMany = async (query: any, toUpdate: IUser) => {
+export const updateMany = async (query: any, toUpdate: IUser) => {
   try {
     const newUser = User.updateMany(query, toUpdate);
     return newUser;
@@ -66,7 +75,7 @@ const updateMany = async (query: any, toUpdate: IUser) => {
   }
 };
 
-const deleteOne = async (_id: string) => {
+export const deleteOne = async (_id: string) => {
   try {
     const response = User.findByIdAndDelete(_id);
     return response;
@@ -75,23 +84,11 @@ const deleteOne = async (_id: string) => {
   }
 };
 
-const deleteMany = async (query: any) => {
+export const deleteMany = async (query: any) => {
   try {
     const response = User.deleteMany(query);
     return response;
   } catch (error) {
     throw error;
   }
-};
-
-export {
-  findMany,
-  createMany,
-  create,
-  findByEmail,
-  updateOne,
-  updateMany,
-  deleteOne,
-  deleteMany,
-  getWithPassword
 };

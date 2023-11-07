@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { response } from "../types/response-body.type";
 import { User } from '../models/user.model'
 import {
+  getUserById,
   findMany,
   createMany,
   create,
@@ -11,6 +12,20 @@ import {
   deleteOne,
   deleteMany,
 } from "../repository/user.repo";
+
+export const takeUser = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  
+  try {
+    const data = await getUserById(id);
+    if (!data) return response(res, 404, { message: "User not found", data });
+    
+    return response(res, 200, { message: "User found", data });
+  } catch (error) {
+    
+    return response(res, 500, { message: "Error", data: error });
+  }
+}
 
 const  signIn = async ( req: Request, res: Response) => {
   const { email, password } = req.body;
